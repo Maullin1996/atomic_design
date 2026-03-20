@@ -1,0 +1,40 @@
+import 'package:flutter/material.dart';
+
+abstract class AppIcons {
+  static const IconData user = Icons.account_circle_outlined;
+  static const IconData addPhoto = Icons.add_a_photo;
+  static const IconData notification = Icons.add_alert_outlined;
+  static const IconData addTaks = Icons.add_circle_outlined;
+  static const IconData link = Icons.link;
+  static const IconData addImage = Icons.add_photo_alternate;
+  static const IconData add = Icons.add_rounded;
+  static const IconData uploadDrive = Icons.add_to_drive;
+  static const IconData saveFile = Icons.archive_outlined;
+  static const IconData backIcon = Icons.arrow_back_ios_new_outlined;
+  static const IconData forwardIcon = Icons.arrow_forward_ios_outlined;
+  static const IconData uploadFile = Icons.attach_file_outlined;
+  static const IconData darkMode = Icons.dark_mode_outlined;
+  static const IconData lightMode = Icons.light_mode_outlined;
+  static const IconData brokenImage = Icons.broken_image_outlined;
+  static const IconData calendart = Icons.calendar_month;
+  static const IconData takePhoto = Icons.camera_outlined;
+  static const IconData camera = Icons.camera_alt_outlined;
+  static const IconData succes = Icons.check;
+  static const IconData check = Icons.check_box;
+  static const IconData unCheck = Icons.check_box_outlined;
+  static const IconData close = Icons.clear;
+  static const IconData copy = Icons.content_copy;
+  static const IconData delete = Icons.delete_outline;
+  static const IconData error = Icons.error_outline;
+  static const IconData favorite = Icons.favorite;
+  static const IconData unFavorite = Icons.favorite_border;
+  static const IconData information = Icons.info_outline;
+  static const IconData edit = Icons.mode_edit_outlined;
+  static const IconData menu = Icons.more_vert_rounded;
+  static const IconData image = Icons.photo;
+  static const IconData minimise = Icons.remove;
+  static const IconData obscurePassword = Icons.visibility_off;
+  static const IconData showPassword = Icons.visibility;
+  static const IconData warning = Icons.report_problem_outlined;
+  static const IconData save = Icons.save_outlined;
+}
