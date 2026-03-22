@@ -18,5 +18,10 @@ abstract class HomeMenu {
       image: 'assets/images/organisms.png',
       route: AppRoutes.organisms,
     ),
+    MenuStructure(
+      title: 'Templates',
+      image: 'assets/images/templates.png',
+      route: AppRoutes.templates,
+    ),
   ];
 }

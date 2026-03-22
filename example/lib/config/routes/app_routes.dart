@@ -1,27 +1,9 @@
-import 'package:atomic_design_example/feature/atoms/presentation/buttons_screen.dart';
-import 'package:atomic_design_example/feature/atoms/presentation/colors_screen.dart';
-import 'package:atomic_design_example/feature/atoms/presentation/icons_screen.dart';
-import 'package:atomic_design_example/feature/atoms/presentation/input_text_screen.dart';
-import 'package:atomic_design_example/feature/atoms/presentation/spacing_radius_screen.dart';
-import 'package:atomic_design_example/feature/atoms/presentation/typography_screen.dart';
-import 'package:atomic_design_example/feature/molecules/presentation/bottom_sheet_screen.dart';
-import 'package:atomic_design_example/feature/molecules/presentation/custom_card_screen.dart';
-import 'package:atomic_design_example/feature/molecules/presentation/dialog_screen.dart';
-import 'package:atomic_design_example/feature/molecules/presentation/search_bar_screen.dart';
-import 'package:atomic_design_example/feature/molecules/presentation/snack_bar_message_screen.dart';
-import 'package:atomic_design_example/feature/organisms/presentation/bottom_nav_bar_screen.dart';
-import 'package:atomic_design_example/feature/organisms/presentation/card_list_screen.dart';
-import 'package:atomic_design_example/feature/organisms/presentation/drawer_screen.dart';
-import 'package:atomic_design_example/feature/organisms/presentation/empty_state_screen.dart';
-import 'package:atomic_design_example/feature/organisms/presentation/error_state_screen.dart';
-import 'package:atomic_design_example/feature/organisms/presentation/grid_view_screen.dart';
-import 'package:atomic_design_example/feature/organisms/presentation/loging_form_screen.dart';
-import 'package:atomic_design_example/feature/organisms/presentation/search_result_screen.dart';
+import 'package:atomic_design_example/feature/atoms/index.dart';
+import 'package:atomic_design_example/feature/molecules/index.dart';
+import 'package:atomic_design_example/feature/organisms/index.dart';
+import 'package:atomic_design_example/feature/templates/index.dart';
 import 'package:flutter/material.dart';
-import 'package:atomic_design_example/feature/atoms/presentation/atoms_page.dart';
 import 'package:atomic_design_example/feature/home/presentation/home_page.dart';
-import 'package:atomic_design_example/feature/molecules/presentation/molecules_page.dart';
-import 'package:atomic_design_example/feature/organisms/presentation/organisms_page.dart';
 
 abstract class AppRoutes {
   static const String home = '/';
@@ -53,6 +35,9 @@ abstract class AppRoutes {
   static const String gridView = '/gridView';
   static const String loginForm = '/logForm';
 
+  // Templates
+  static const String templates = '/templates';
+
   static Map<String, WidgetBuilder> get routes => {
     home: (context) => const HomePage(),
     atoms: (context) => const AtomsPage(),
@@ -77,6 +62,7 @@ abstract class AppRoutes {
     bottomNavBar: (context) => const BottomNavBarScreen(),
     gridView: (context) => const GridViewScreen(),
     loginForm: (context) => const LogingFormScreen(),
+    templates: (context) => const TemplatesPage(),
   };
 
   static Route<dynamic>? onGenerateRoute(RouteSettings settings) {
@@ -127,6 +113,8 @@ abstract class AppRoutes {
         return MaterialPageRoute(builder: (_) => const GridViewScreen());
       case loginForm:
         return MaterialPageRoute(builder: (_) => const LogingFormScreen());
+      case templates:
+        return MaterialPageRoute(builder: (_) => const TemplatesPage());
       default:
         return MaterialPageRoute(builder: (_) => const HomePage());
     }
