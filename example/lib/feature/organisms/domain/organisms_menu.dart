@@ -39,5 +39,10 @@ abstract class OrganismsMenu {
       route: AppRoutes.gridView,
       icon: Icons.grid_view_rounded,
     ),
+    MenuStructure(
+      title: 'Login Form',
+      route: AppRoutes.loginForm,
+      icon: Icons.login,
+    ),
   ];
 }

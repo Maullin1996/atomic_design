@@ -1,7 +1,7 @@
 import 'package:flutter/widgets.dart';
 
 class AppAssetsImage extends StatelessWidget {
-  final String path;
+  final String? path;
   final double? widthImage;
   final double? heightImage;
   final int? cacheHeight;
@@ -12,7 +12,7 @@ class AppAssetsImage extends StatelessWidget {
 
   const AppAssetsImage({
     super.key,
-    required this.path,
+    this.path,
     this.widthImage,
     this.heightImage,
     this.cacheHeight,
@@ -30,7 +30,7 @@ class AppAssetsImage extends StatelessWidget {
         maxWidth: widthImage ?? 150,
       ),
       child: Image.asset(
-        path,
+        path ?? '',
         cacheHeight: cacheHeight,
         cacheWidth: cacheWidth,
         fit: fit,

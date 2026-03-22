@@ -37,4 +37,6 @@ abstract class AppIcons {
   static const IconData showPassword = Icons.visibility;
   static const IconData warning = Icons.report_problem_outlined;
   static const IconData save = Icons.save_outlined;
+  static const IconData passwordInput = Icons.enhanced_encryption_rounded;
+  static const IconData userInput = Icons.person;
 }

@@ -12,6 +12,11 @@ class ButtonsScreen extends StatelessWidget {
         title: 'Primary · Filled',
         type: ButtonType.primaryFillButton,
       ),
+      ButtonToken(
+        title: 'Primary · Icon Filled',
+        type: ButtonType.primaryIconFillButton,
+        hasIcon: true,
+      ),
       ButtonToken(title: 'Primary · Text', type: ButtonType.primaryTextButton),
     ];
 
@@ -31,6 +36,10 @@ class ButtonsScreen extends StatelessWidget {
         type: ButtonType.primaryFloatingButton,
         hasIcon: true,
         shape: CircleBorder(),
+      ),
+      ButtonToken(
+        title: 'Primary · Image  Button',
+        type: ButtonType.primaryImageButton,
       ),
     ];
     return Scaffold(
@@ -105,6 +114,9 @@ class _ButtonPreview extends StatelessWidget {
                 ),
                 type: token.type,
                 icon: token.hasIcon ? AppIcons.camera : null,
+                iconForFilledButton: token.hasIcon
+                    ? Icon(Icons.facebook)
+                    : null,
                 iconSize: token.hasIcon ? 34 : null,
                 onPressed: () {},
                 shape: token.shape,
@@ -120,6 +132,9 @@ class _ButtonPreview extends StatelessWidget {
                 ),
                 type: token.type,
                 icon: token.hasIcon ? AppIcons.camera : null,
+                iconForFilledButton: token.hasIcon
+                    ? Icon(Icons.facebook)
+                    : null,
                 iconSize: token.hasIcon ? 34 : null,
                 onPressed: null,
                 shape: token.shape,

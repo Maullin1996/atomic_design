@@ -1,16 +1,12 @@
 import 'package:atomic_design/atoms/app_themes.dart';
 import 'package:atomic_design/atoms/app_tokens.dart';
-import 'package:atomic_design/config/atomic_design_config.dart';
 import 'package:atomic_design/organisms/app_drawe.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import 'test_utils.dart';
 
-Future<void> pumpDrawerTest(
-  WidgetTester tester,
-  AppDrawer drawer,
-) async {
+Future<void> pumpDrawerTest(WidgetTester tester, AppDrawer drawer) async {
   await tester.binding.setSurfaceSize(const Size(400, 800));
   addTearDown(() => tester.binding.setSurfaceSize(null));
 
@@ -48,13 +44,7 @@ void main() {
       AppDrawer(
         userName: 'Juan Perez',
         userEmail: 'juan@mail.com',
-        items: [
-          DrawerItem(
-            icon: Icons.home,
-            label: 'Inicio',
-            onTap: () {},
-          ),
-        ],
+        items: [DrawerItem(icon: Icons.home, label: 'Inicio', onTap: () {})],
       ),
     );
 
@@ -90,10 +80,7 @@ void main() {
 
     await pumpDrawerTest(
       tester,
-      AppDrawer(
-        items: const [],
-        onLogout: () => tapped = true,
-      ),
+      AppDrawer(items: const [], onLogout: () => tapped = true),
     );
 
     expect(find.text('Cerrar sesión'), findsOneWidget);

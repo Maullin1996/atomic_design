@@ -101,6 +101,22 @@ abstract class AppThemes {
         ),
       ),
 
+      outlinedButtonTheme: OutlinedButtonThemeData(
+        style: OutlinedButton.styleFrom(
+          foregroundColor: c('textPrimary'),
+          side: BorderSide(color: c('border')),
+          padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 16),
+          textStyle: TextStyle(
+            fontFamily: t.typography.fonts['fontFamily'],
+            fontSize: t.typography.sizes['body'],
+            fontWeight: FontWeight.w500,
+          ),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(t.radius['medium'] ?? 0.0),
+          ),
+        ),
+      ),
+
       inputDecorationTheme: InputDecorationTheme(
         filled: true,
         fillColor: c('surfaceLow'),

@@ -15,6 +15,7 @@ import 'package:atomic_design_example/feature/organisms/presentation/drawer_scre
 import 'package:atomic_design_example/feature/organisms/presentation/empty_state_screen.dart';
 import 'package:atomic_design_example/feature/organisms/presentation/error_state_screen.dart';
 import 'package:atomic_design_example/feature/organisms/presentation/grid_view_screen.dart';
+import 'package:atomic_design_example/feature/organisms/presentation/loging_form_screen.dart';
 import 'package:atomic_design_example/feature/organisms/presentation/search_result_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:atomic_design_example/feature/atoms/presentation/atoms_page.dart';
@@ -50,6 +51,7 @@ abstract class AppRoutes {
   static const String drawer = '/drawer';
   static const String bottomNavBar = '/bottomNavBar';
   static const String gridView = '/gridView';
+  static const String loginForm = '/logForm';
 
   static Map<String, WidgetBuilder> get routes => {
     home: (context) => const HomePage(),
@@ -74,6 +76,7 @@ abstract class AppRoutes {
     drawer: (context) => const DrawerScreen(),
     bottomNavBar: (context) => const BottomNavBarScreen(),
     gridView: (context) => const GridViewScreen(),
+    loginForm: (context) => const LogingFormScreen(),
   };
 
   static Route<dynamic>? onGenerateRoute(RouteSettings settings) {
@@ -122,6 +125,8 @@ abstract class AppRoutes {
         return MaterialPageRoute(builder: (_) => const BottomNavBarScreen());
       case gridView:
         return MaterialPageRoute(builder: (_) => const GridViewScreen());
+      case loginForm:
+        return MaterialPageRoute(builder: (_) => const LogingFormScreen());
       default:
         return MaterialPageRoute(builder: (_) => const HomePage());
     }
