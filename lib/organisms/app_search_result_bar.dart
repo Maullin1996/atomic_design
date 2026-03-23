@@ -42,11 +42,11 @@ class AppResultSearchBar extends StatelessWidget {
                   key: const ValueKey('results'),
                   constraints: const BoxConstraints(maxHeight: 300),
                   child: Container(
-                    margin: EdgeInsets.only(top: tokens.spacing.small),
                     padding: EdgeInsets.all(tokens.spacing.small),
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(tokens.radius.small),
-                      color: AppColors.of(context).surfaceMid,
+                      color: AppColors.of(context).surfaceHigh,
+                      border: Border.all(color: AppColors.of(context).border),
                     ),
                     child: child,
                   ),

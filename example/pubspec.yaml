@@ -52,6 +52,7 @@ flutter:
     - assets/images/molecules.png
     - assets/images/organisms.png
     - assets/images/templates.png
+    - assets/images/gerente.png
     - assets/images/cat.jpg
     - assets/images/empty_icon.png
     - assets/images/error.png

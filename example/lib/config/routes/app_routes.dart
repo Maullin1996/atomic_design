@@ -2,6 +2,7 @@ import 'package:atomic_design_example/feature/atoms/index.dart';
 import 'package:atomic_design_example/feature/molecules/index.dart';
 import 'package:atomic_design_example/feature/organisms/index.dart';
 import 'package:atomic_design_example/feature/templates/index.dart';
+import 'package:atomic_design_example/feature/templates/presentation/list_page.dart';
 import 'package:flutter/material.dart';
 import 'package:atomic_design_example/feature/home/presentation/home_page.dart';
 
@@ -37,6 +38,7 @@ abstract class AppRoutes {
 
   // Templates
   static const String templates = '/templates';
+  static const String listPage = '/listPage';
 
   static Map<String, WidgetBuilder> get routes => {
     home: (context) => const HomePage(),
@@ -63,6 +65,7 @@ abstract class AppRoutes {
     gridView: (context) => const GridViewScreen(),
     loginForm: (context) => const LogingFormScreen(),
     templates: (context) => const TemplatesPage(),
+    listPage: (context) => const ListPage(),
   };
 
   static Route<dynamic>? onGenerateRoute(RouteSettings settings) {
@@ -115,6 +118,8 @@ abstract class AppRoutes {
         return MaterialPageRoute(builder: (_) => const LogingFormScreen());
       case templates:
         return MaterialPageRoute(builder: (_) => const TemplatesPage());
+      case listPage:
+        return MaterialPageRoute(builder: (_) => const ListPage());
       default:
         return MaterialPageRoute(builder: (_) => const HomePage());
     }
