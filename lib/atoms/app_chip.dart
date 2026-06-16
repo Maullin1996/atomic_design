@@ -40,12 +40,16 @@ class AppChip extends StatelessWidget {
   /// Background color override. Defaults to `AppColors.surfaceHigh`.
   final Color? backgroundColor;
 
+  /// Text color override. Defaults to `AppColors.textPrimary`.
+  final Color? textColor;
+
   const AppChip({
     super.key,
     required this.label,
     this.avatar,
     this.onDeleted,
     this.backgroundColor,
+    this.textColor,
   });
 
   @override
@@ -54,7 +58,7 @@ class AppChip extends StatelessWidget {
     final tokens = AppTokens.of(context);
 
     return Chip(
-      label: Text(label),
+      label: Text(label, style: TextStyle(color: textColor ?? colors.textPrimary)),
       avatar: avatar,
       onDeleted: onDeleted,
       deleteIcon: const Icon(Icons.close, size: 16),
