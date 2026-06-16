@@ -1,10 +1,32 @@
 import 'package:atomic_design/config/atomic_design_config.dart';
 import 'package:flutter/material.dart';
 
+/// Provides access to the semantic color palette for the current theme.
+///
+/// Obtain an instance with [AppColors.of]:
+///
+/// ```dart
+/// final colors = AppColors.of(context);
+/// Container(color: colors.primary)
+/// ```
+///
+/// Colors are resolved from [AtomicDesignConfig] on every call, so they
+/// always reflect the active brightness without needing a provider ancestor.
+///
+/// The palette is grouped into five semantic categories:
+/// - **Brand** — `primary`, `secondary`, and their interaction states.
+/// - **Surfaces** — layered background values (`surfaceLow`, `surfaceMid`,
+///   `surfaceHigh`) plus `onSurface` content colors.
+/// - **Text** — `textPrimary`, `textSecondary`, `textDisabled`, `textInverse`.
+/// - **Feedback** — `success`, `warning`, `error`, `info` and their `on*`
+///   pairs.
+/// - **States** — `disabled`, `focus`, `divider`, `border`.
 class AppColors {
   final Brightness _brightness;
   AppColors._(this._brightness);
 
+  /// Returns an [AppColors] instance for the brightness of the nearest
+  /// [Theme] ancestor.
   static AppColors of(BuildContext context) {
     final brightness = Theme.of(context).brightness;
     return AppColors._(brightness);

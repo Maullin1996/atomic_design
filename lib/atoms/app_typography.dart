@@ -1,6 +1,18 @@
 import 'package:atomic_design/atoms/app_tokens.dart';
 import 'package:flutter/widgets.dart';
 
+/// Static helpers for reading typography tokens from the current context.
+///
+/// Each method reads from [AppTokens.of], which requires [AppThemeProvider]
+/// to be present in the widget tree.
+///
+/// ```dart
+/// TextStyle(fontSize: AppTypography.bodyOf(context))
+/// ```
+///
+/// Prefer [AppText] for rendering text — it applies both size and style from
+/// the active [Theme]. Use these helpers only when you need a raw font-size
+/// value (e.g. for custom painters or icon sizing).
 abstract class AppTypography {
   static String fontFamilyOf(BuildContext ctx) =>
       AppTokens.of(ctx).typography.fontFamily;

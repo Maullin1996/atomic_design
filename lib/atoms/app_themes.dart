@@ -1,8 +1,34 @@
 import 'package:atomic_design/design_system.dart';
 import 'package:flutter/material.dart';
 
+/// Builds Material 3 [ThemeData] objects from the active [AtomicDesignConfig].
+///
+/// Pass [AppThemes.light] and [AppThemes.dark] directly to [MaterialApp]:
+///
+/// ```dart
+/// MaterialApp(
+///   theme: AppThemes.light,
+///   darkTheme: AppThemes.dark,
+///   themeMode: ThemeMode.system,
+/// )
+/// ```
+///
+/// Both getters read from [AtomicDesignConfig.instance], so
+/// [AtomicDesignConfig] must be initialised before calling them.
+///
+/// Component styles (AppBar, Card, ElevatedButton, TextButton, OutlinedButton,
+/// InputDecoration, SnackBar, Dialog, Divider, Switch, DatePicker, TimePicker,
+/// and the full TextTheme) are all derived from the config tokens, including
+/// the responsive `small` breakpoint for sizing.
+///
+/// See also:
+/// - [AppThemeProvider], which must also wrap the widget tree so that
+///   [AppTokens.of] works inside widgets.
 abstract class AppThemes {
+  /// Returns a [ThemeData] for light mode derived from the config.
   static ThemeData get light => _build(Brightness.light);
+
+  /// Returns a [ThemeData] for dark mode derived from the config.
   static ThemeData get dark => _build(Brightness.dark);
 
   static ThemeData _build(Brightness brightness) {

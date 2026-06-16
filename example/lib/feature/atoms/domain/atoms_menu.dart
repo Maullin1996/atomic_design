@@ -34,5 +34,25 @@ abstract class AtomsMenu {
       icon: Icons.text_fields,
       route: AppRoutes.inputText,
     ),
+    MenuStructure(
+      title: 'Switch',
+      icon: Icons.toggle_on_outlined,
+      route: AppRoutes.switchScreen,
+    ),
+    MenuStructure(
+      title: 'Checkbox',
+      icon: Icons.check_box_outlined,
+      route: AppRoutes.checkboxScreen,
+    ),
+    MenuStructure(
+      title: 'Radio',
+      icon: Icons.radio_button_checked_outlined,
+      route: AppRoutes.radioScreen,
+    ),
+    MenuStructure(
+      title: 'Chips',
+      icon: Icons.label_outline,
+      route: AppRoutes.chipScreen,
+    ),
   ];
 }

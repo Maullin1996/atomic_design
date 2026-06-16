@@ -2,18 +2,79 @@ import 'package:atomic_design/atoms/tokens.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
+/// A unified button widget that covers all button variants in the design system.
+///
+/// Select the variant through the required [type] parameter:
+///
+/// ```dart
+/// // Filled primary button with loading state
+/// AppButtons(
+///   type: ButtonType.primaryFillButton,
+///   title: Text('Save'),
+///   isLoading: _isSaving,
+///   onPressed: _save,
+/// )
+///
+/// // Icon-only button
+/// AppButtons(
+///   type: ButtonType.primaryIconButton,
+///   icon: AppIcons.edit,
+///   onPressed: _edit,
+/// )
+///
+/// // Circular button with an SVG asset from the package
+/// AppButtons(
+///   type: ButtonType.primaryImageButton,
+///   assetsIcon: 'assets/icons/github.svg',
+///   onPressed: _loginWithGitHub,
+/// )
+/// ```
+///
+/// When [isLoading] is `true`, the button is disabled and a
+/// [CircularProgressIndicator] replaces the label or icon.
+///
+/// See also:
+/// - [ButtonType], which documents each available variant.
 class AppButtons extends StatelessWidget {
+  /// The label widget, used by [ButtonType.primaryFillButton],
+  /// [ButtonType.primaryIconFillButton], and [ButtonType.primaryTextButton].
   final Widget? title;
+
+  /// The leading icon for [ButtonType.primaryIconFillButton].
   final Widget? iconForFilledButton;
+
+  /// The icon data for [ButtonType.primaryIconButton] and
+  /// [ButtonType.primaryFloatingButton].
   final IconData? icon;
+
   final VoidCallback? onPressed;
+
+  /// Determines which button variant to render.
   final ButtonType type;
+
+  /// Icon size override for [ButtonType.primaryIconButton].
   final double? iconSize;
+
+  /// When `true`, the button is disabled and shows a loading indicator.
   final bool isLoading;
+
+  /// Shape override for [ButtonType.primaryFloatingButton].
   final ShapeBorder? shape;
+
+  /// Hero tag for [ButtonType.primaryFloatingButton]. Pass `null` to disable
+  /// the hero animation when multiple FABs coexist on the same route.
   final Object? heroTag;
+
   final double? fontSize;
+
+  /// Tint color for [ButtonType.primaryFloatingButton] background and
+  /// [ButtonType.primaryIconButton] icon. Also used as the SVG color filter
+  /// in [ButtonType.primaryImageButton].
   final Color? color;
+
+  /// Asset path for [ButtonType.primaryImageButton]. Must be a valid SVG path
+  /// declared in the `atomic_design` package assets (e.g.
+  /// `'assets/icons/github.svg'`).
   final String? assetsIcon;
 
   const AppButtons({
@@ -164,11 +225,24 @@ class AppButtons extends StatelessWidget {
   }
 }
 
+/// The visual and behavioral variants available for [AppButtons].
 enum ButtonType {
+  /// Full-width filled button. Uses the theme's [ElevatedButton] style.
   primaryFillButton,
+
+  /// Filled button with a leading icon widget ([AppButtons.iconForFilledButton]).
   primaryIconFillButton,
+
+  /// Ghost / text-only button. Uses the theme's [TextButton] style.
   primaryTextButton,
+
+  /// Circular icon-only button. Uses [AppButtons.icon] and [AppButtons.iconSize].
   primaryIconButton,
+
+  /// Material [FloatingActionButton]. Requires [AppButtons.icon].
   primaryFloatingButton,
+
+  /// Circular button that renders an SVG asset from the `atomic_design`
+  /// package. Requires [AppButtons.assetsIcon].
   primaryImageButton,
 }

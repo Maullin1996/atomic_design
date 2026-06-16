@@ -1,8 +1,33 @@
+/// Data models that represent a parsed design-token configuration.
+///
+/// These classes are populated by [AtomicDesignConfig] when it reads the
+/// JSON config file (one entry per theme — `light` and `dark`).  Consumers
+/// rarely need to interact with these types directly; use [AppTokens] or the
+/// static helpers ([AppColors], [AppSpacing], etc.) inside widgets instead.
+library;
+
+/// Holds all raw design tokens for a single theme (light **or** dark).
+///
+/// Colors are stored as hex strings (e.g. `"#2563EB"` or `"2563EB"`).
+/// Spacing and radius values are stored as logical pixels.
+///
+/// When the config JSON includes a `responsive` block, [resolveFor] picks the
+/// breakpoint-appropriate [ResponsiveConfig]; otherwise the base [spacing],
+/// [radius], and [typography] values are returned directly.
 class AppConfig {
+  /// Semantic color palette keyed by token name (e.g. `"primary"`, `"error"`).
   final Map<String, String> colors;
+
+  /// Base spacing scale before responsive overrides are applied.
   final Map<String, double> spacing;
+
+  /// Base border-radius scale before responsive overrides are applied.
   final Map<String, double> radius;
+
+  /// Base typography (font family + size scale) before responsive overrides.
   final TypographyJson typography;
+
+  /// Optional per-breakpoint overrides for spacing, radius, and typography.
   final ResponsiveTokens? responsive;
 
   AppConfig({
@@ -34,6 +59,10 @@ class AppConfig {
     );
   }
 
+  /// Returns the [ResponsiveConfig] that matches [width] in logical pixels.
+  ///
+  /// Falls back to a [ResponsiveConfig] built from the base tokens when no
+  /// [responsive] block is present in the config.
   ResponsiveConfig resolveFor(double width) {
     if (responsive != null) return responsive!.resolve(width);
 
@@ -45,8 +74,12 @@ class AppConfig {
   }
 }
 
+/// Raw typography tokens: font-family names and size scale.
 class TypographyJson {
+  /// Font-family overrides keyed by role. Must include at least `"fontFamily"`.
   final Map<String, String> fonts;
+
+  /// Named size scale (e.g. `"body"`, `"h4"`) in logical pixels.
   final Map<String, double> sizes;
 
   TypographyJson({required this.fonts, required this.sizes});
@@ -63,6 +96,10 @@ class TypographyJson {
   }
 }
 
+/// The resolved token set for a specific screen-width breakpoint.
+///
+/// Produced by [ResponsiveTokens.resolve] and consumed by [AppTokens.resolve]
+/// to build the [AppTokens] that widgets read at runtime.
 class ResponsiveConfig {
   final Map<String, double> spacing;
   final Map<String, double> radius;
@@ -91,6 +128,15 @@ class ResponsiveConfig {
   }
 }
 
+/// Stores five [ResponsiveConfig] breakpoints and selects the right one for a
+/// given screen width.
+///
+/// Breakpoints (logical pixels):
+/// - `xSmall` — < 360
+/// - `small`  — 360 – 413
+/// - `medium` — 414 – 599
+/// - `large`  — 600 – 839
+/// - `xLarge` — ≥ 840
 class ResponsiveTokens {
   final ResponsiveConfig xSmall;
   final ResponsiveConfig small;
@@ -116,6 +162,7 @@ class ResponsiveTokens {
     );
   }
 
+  /// Returns the [ResponsiveConfig] whose breakpoint contains [width].
   ResponsiveConfig resolve(double width) {
     if (width < 360) return xSmall;
     if (width < 414) return small;

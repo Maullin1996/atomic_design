@@ -2,15 +2,47 @@ import 'package:flutter/material.dart';
 
 import '../atoms/tokens.dart';
 
+/// A self-contained login form with user, password, social login buttons, and
+/// a registration link.
+///
+/// The form manages its own [TextEditingController]s and validation state
+/// internally. When the user taps **Sign In** and all fields are valid,
+/// [onSignIn] is called with the trimmed username and raw password — the
+/// parent screen is responsible for the authentication logic.
+///
+/// ```dart
+/// AppLoginForm(
+///   title: 'Welcome back',
+///   isLoading: _authState.isLoading,
+///   onSignIn: (user, password) => _authBloc.login(user, password),
+///   onGoogle: _loginWithGoogle,
+///   onRegister: () => context.push('/register'),
+/// )
+/// ```
+///
+/// Social login buttons ([onGitHub], [onGoogle], [onFacebook]) are only
+/// rendered when their respective callbacks are non-null.
 class AppLoginForm extends StatefulWidget {
-  /// Recibe usuario y contraseña ya validados.
-  /// La pantalla decide qué hacer con ellos (llamar al repositorio, navegar, etc.)
+  /// Called with the validated username and password when the Sign In button
+  /// is tapped. Receives `(user, password)`.
   final void Function(String user, String password)? onSignIn;
+
+  /// Called when the registration text button is tapped.
   final VoidCallback? onRegister;
+
+  /// Shows a GitHub SVG icon button when non-null.
   final VoidCallback? onGitHub;
+
+  /// Shows a Google SVG icon button when non-null.
   final VoidCallback? onGoogle;
+
+  /// Shows a Facebook SVG icon button when non-null.
   final VoidCallback? onFacebook;
+
+  /// When `true`, the Sign In button is disabled and shows a loading indicator.
   final bool isLoading;
+
+  /// Heading text displayed at the top of the form.
   final String title;
 
   const AppLoginForm({
@@ -60,7 +92,6 @@ class _AppLoginFormState extends State<AppLoginForm> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // ── Título ────────────────────────────────────────
           Center(
             child: AppText.h4(
               widget.title,
@@ -70,7 +101,6 @@ class _AppLoginFormState extends State<AppLoginForm> {
           ),
           SizedBox(height: tokens.spacing.smallMedium),
 
-          // ── Usuario ───────────────────────────────────────
           AppInputText(
             label: 'User',
             textEditingController: _userController,
@@ -86,7 +116,6 @@ class _AppLoginFormState extends State<AppLoginForm> {
           ),
           SizedBox(height: tokens.spacing.smallMedium),
 
-          // ── Contraseña ────────────────────────────────────
           AppInputText(
             label: 'Password',
             textEditingController: _passwordController,
@@ -108,7 +137,6 @@ class _AppLoginFormState extends State<AppLoginForm> {
           ),
           SizedBox(height: tokens.spacing.large),
 
-          // ── Sign In ───────────────────────────────────────
           SizedBox(
             width: double.infinity,
             child: AppButtons(
@@ -120,13 +148,11 @@ class _AppLoginFormState extends State<AppLoginForm> {
           ),
           SizedBox(height: tokens.spacing.large),
 
-          // ── Divider social ────────────────────────────────
           Center(
             child: AppText.h6('or Sign In With', fontWeight: FontWeight.w400),
           ),
           SizedBox(height: tokens.spacing.smallMedium),
 
-          // ── Botones sociales ──────────────────────────────
           Center(
             child: Row(
               mainAxisSize: MainAxisSize.min,
@@ -159,8 +185,6 @@ class _AppLoginFormState extends State<AppLoginForm> {
             ),
           ),
 
-          // ── Registro al fondo ─────────────────────────────
-          // Align empuja el botón al fondo sin necesitar Spacer
           if (widget.onRegister != null)
             Padding(
               padding: EdgeInsets.only(top: tokens.spacing.smallMedium),

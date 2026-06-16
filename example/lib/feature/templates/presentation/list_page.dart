@@ -66,6 +66,9 @@ class _ListPageState extends State<ListPage> {
                   child: Stack(
                     children: [
                       AppCardList(
+                        type: CardListType.list,
+                        itemCount: 20,
+                        itemBuilder: (_, __) => const _ContentCard(),
                         emptyWidget: AppStateWidget(
                           title: 'Todavía no tiene Elementos',
                           type: AppStateType.empty,
@@ -73,7 +76,6 @@ class _ListPageState extends State<ListPage> {
                           onPressed: () {},
                           buttonChild: Text('Add Element'),
                         ),
-                        type: CardListType.list,
                         errorWidget: AppStateWidget(
                           title: 'Todavía no tiene Elementos',
                           type: AppStateType.empty,
@@ -81,7 +83,6 @@ class _ListPageState extends State<ListPage> {
                           onPressed: () {},
                           buttonChild: Text('Add Element'),
                         ),
-                        elementsList: _ElementsList(),
                       ),
                       AppResultSearchBar(
                         child: controller.value.text.isNotEmpty
@@ -130,24 +131,6 @@ class _ListPageState extends State<ListPage> {
           ),
         ),
       ),
-    );
-  }
-}
-
-class _ElementsList extends StatelessWidget {
-  const _ElementsList();
-
-  @override
-  Widget build(BuildContext context) {
-    final tokens = AppTokens.of(context);
-    return ListView.separated(
-      itemCount: 20,
-      separatorBuilder: (BuildContext context, int index) {
-        return SizedBox(height: tokens.spacing.xSmall);
-      },
-      itemBuilder: (BuildContext context, int index) {
-        return _ContentCard();
-      },
     );
   }
 }

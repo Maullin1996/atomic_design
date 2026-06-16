@@ -16,6 +16,10 @@ abstract class AppRoutes {
   static const String icons = '/icons';
   static const String spacing = '/spacing-radius';
   static const String inputText = '/inputText';
+  static const String switchScreen = '/switch';
+  static const String checkboxScreen = '/checkbox';
+  static const String radioScreen = '/radio';
+  static const String chipScreen = '/chip';
 
   // Molecules
   static const String molecules = '/molecules';
@@ -50,7 +54,11 @@ abstract class AppRoutes {
     buttons: (context) => const ButtonsScreen(),
     icons: (context) => const IconsScreen(),
     spacing: (context) => const SpacingRadiusScreen(),
-    inputText: (context) => const IconsScreen(),
+    inputText: (context) => const InputTextScreen(),
+    switchScreen: (context) => const SwitchScreen(),
+    checkboxScreen: (context) => const CheckboxScreen(),
+    radioScreen: (context) => const RadioScreen(),
+    chipScreen: (context) => const ChipScreen(),
     searchBar: (context) => const SearchBarScreen(),
     customCard: (context) => const CustomCardScreen(),
     snackBar: (context) => const SnackBarMessageScreen(),
@@ -90,6 +98,14 @@ abstract class AppRoutes {
         return MaterialPageRoute(builder: (_) => const SpacingRadiusScreen());
       case inputText:
         return MaterialPageRoute(builder: (_) => const InputTextScreen());
+      case switchScreen:
+        return MaterialPageRoute(builder: (_) => const SwitchScreen());
+      case checkboxScreen:
+        return MaterialPageRoute(builder: (_) => const CheckboxScreen());
+      case radioScreen:
+        return MaterialPageRoute(builder: (_) => const RadioScreen());
+      case chipScreen:
+        return MaterialPageRoute(builder: (_) => const ChipScreen());
       case searchBar:
         return MaterialPageRoute(builder: (_) => const SearchBarScreen());
       case customCard:

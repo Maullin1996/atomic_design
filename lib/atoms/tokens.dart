@@ -10,3 +10,8 @@ export 'package:atomic_design/atoms/app_radius.dart';
 export 'package:atomic_design/atoms/app_spacing.dart';
 export 'package:atomic_design/atoms/app_typography.dart';
 export 'package:atomic_design/atoms/app_colors.dart';
+export 'package:atomic_design/atoms/app_animations.dart';
+export 'package:atomic_design/atoms/app_switch.dart';
+export 'package:atomic_design/atoms/app_checkbox.dart';
+export 'package:atomic_design/atoms/app_radio.dart';
+export 'package:atomic_design/atoms/app_chip.dart';

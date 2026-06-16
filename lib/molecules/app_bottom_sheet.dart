@@ -2,17 +2,66 @@ import 'package:flutter/material.dart';
 
 import '../atoms/tokens.dart';
 
+/// A themed modal bottom sheet with optional title, subtitle, custom content,
+/// and confirm / cancel actions.
+///
+/// The preferred way to show it is via the static [AppBottomSheet.show]
+/// factory, which calls [showModalBottomSheet] with the correct settings:
+///
+/// ```dart
+/// AppBottomSheet.show(
+///   context,
+///   title: 'Delete account',
+///   subtitle: 'This action cannot be undone.',
+///   confirmLabel: 'Delete',
+///   cancelLabel: 'Cancel',
+///   isDangerous: true,
+///   onConfirm: _deleteAccount,
+/// );
+/// ```
+///
+/// When [isLoading] is `true`:
+/// - The confirm button shows a loading indicator.
+/// - Dismissal by drag or barrier tap is disabled regardless of
+///   [isDismissible].
+///
+/// When [isDangerous] is `true`, the title and confirm button use the error
+/// color from [AppColors].
+///
+/// The sheet is capped at 90 % of the screen height and automatically
+/// shifts up to accommodate the on-screen keyboard.
 class AppBottomSheet extends StatelessWidget {
   final String? title;
   final String? subtitle;
+
+  /// Arbitrary widget placed between [subtitle] and the action buttons.
   final Widget? content;
+
+  /// Label for the primary action button. When `null`, no confirm button is shown.
   final String? confirmLabel;
+
+  /// Label for the secondary text button. When `null`, the confirm button
+  /// spans the full width.
   final String? cancelLabel;
+
   final VoidCallback? onConfirm;
+
+  /// Called when the cancel button is tapped. The sheet is automatically
+  /// popped after this callback returns.
   final VoidCallback? onCancel;
+
+  /// When `true`, the confirm button is disabled and shows a loading indicator.
+  /// Dismissal is also disabled while loading.
   final bool isLoading;
+
+  /// When `true`, the title and confirm button are styled with the error color.
   final bool isDangerous;
+
+  /// When `true`, a drag handle is rendered at the top of the sheet.
   final bool showHandle;
+
+  /// When `false`, the sheet cannot be dismissed by tapping the barrier or
+  /// dragging. Has no effect while [isLoading] is `true`.
   final bool isDismissible;
 
   const AppBottomSheet({
@@ -30,7 +79,10 @@ class AppBottomSheet extends StatelessWidget {
     this.isDismissible = true,
   });
 
-  // ── Método estático para mostrarlo fácilmente ──────────────
+  /// Shows the bottom sheet as a modal overlay.
+  ///
+  /// Returns the value passed to [Navigator.pop] when the sheet is dismissed,
+  /// or `null` if it was closed without a result.
   static Future<T?> show<T>(
     BuildContext context, {
     String? title,
@@ -49,7 +101,7 @@ class AppBottomSheet extends StatelessWidget {
       context: context,
       isDismissible: isDismissible && !isLoading,
       enableDrag: isDismissible && !isLoading,
-      isScrollControlled: true, // permite que crezca con el contenido
+      isScrollControlled: true,
       backgroundColor: Colors.transparent,
       builder: (_) => AppBottomSheet(
         title: title,
@@ -70,7 +122,6 @@ class AppBottomSheet extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colors = AppColors.of(context);
-    // Evita que el teclado tape el contenido cuando hay inputs
     final bottomInset = MediaQuery.of(context).viewInsets.bottom;
     final screenHeight = MediaQuery.sizeOf(context).height;
     final tokens = AppTokens.of(context);
@@ -89,13 +140,12 @@ class AppBottomSheet extends StatelessWidget {
           tokens.spacing.smallMedium,
           tokens.spacing.small,
           tokens.spacing.smallMedium,
-          tokens.spacing.smallMedium + bottomInset, // respeta el teclado
+          tokens.spacing.smallMedium + bottomInset,
         ),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // ── Handle ───────────────────────────────────────
             if (showHandle)
               Center(
                 child: Container(
@@ -109,7 +159,6 @@ class AppBottomSheet extends StatelessWidget {
                 ),
               ),
 
-            // ── Título ───────────────────────────────────────
             if (title != null)
               AppText.h5(
                 title!,
@@ -117,7 +166,6 @@ class AppBottomSheet extends StatelessWidget {
                 maxLines: 2,
               ),
 
-            // ── Subtítulo ────────────────────────────────────
             if (subtitle != null) ...[
               SizedBox(height: tokens.spacing.xSmall),
               Text(
@@ -128,13 +176,11 @@ class AppBottomSheet extends StatelessWidget {
               ),
             ],
 
-            // ── Contenido custom ─────────────────────────────
             if (content != null) ...[
               SizedBox(height: tokens.spacing.small),
               content!,
             ],
 
-            // ── Botones ──────────────────────────────────────
             if (confirmLabel != null || cancelLabel != null) ...[
               SizedBox(height: tokens.spacing.smallMedium),
               _buildButtons(context, colors),
@@ -147,7 +193,6 @@ class AppBottomSheet extends StatelessWidget {
 
   Widget _buildButtons(BuildContext context, colors) {
     final tokens = AppTokens.of(context);
-    // Si solo hay confirmación, ocupa todo el ancho
     if (cancelLabel == null && confirmLabel != null) {
       return SizedBox(
         width: double.infinity,

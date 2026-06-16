@@ -2,16 +2,56 @@ import 'package:flutter/material.dart';
 
 import '../atoms/tokens.dart';
 
+/// A themed confirmation dialog with optional subtitle, custom content, and
+/// confirm / cancel actions.
+///
+/// The preferred way to show it is via the static [AppDialog.show] factory,
+/// which wraps [showDialog] with the correct settings:
+///
+/// ```dart
+/// AppDialog.show(
+///   context,
+///   title: 'Delete item?',
+///   subtitle: 'This cannot be undone.',
+///   confirmLabel: 'Delete',
+///   cancelLabel: 'Cancel',
+///   isDangerous: true,
+///   onConfirm: _deleteItem,
+/// );
+/// ```
+///
+/// When [isLoading] is `true`:
+/// - The confirm button shows a loading indicator and is disabled.
+/// - The barrier tap is disabled — the dialog cannot be dismissed.
+///
+/// When [isDangerous] is `true`, the title and confirm button are styled
+/// with the error color from [AppColors].
+///
+/// The dialog is capped at 90 % of screen width and 80 % of screen height.
 class AppDialog extends StatelessWidget {
   final String title;
   final String? subtitle;
+
+  /// Arbitrary widget placed between [subtitle] and the action buttons.
   final Widget? content;
+
+  /// Label for the primary action button. Defaults to `'Aceptar'`.
   final String confirmLabel;
+
+  /// Label for the secondary text button. When `null`, no cancel button is shown.
   final String? cancelLabel;
+
   final VoidCallback? onConfirm;
+
+  /// Called when the cancel button is tapped. The dialog is automatically
+  /// popped after this callback returns.
   final VoidCallback? onCancel;
+
+  /// When `true`, the confirm button is disabled and shows a loading indicator.
   final bool isLoading;
-  final bool isDangerous; // para acciones destructivas como "Eliminar"
+
+  /// When `true`, the title and confirm button are styled with the error color.
+  final bool isDangerous;
 
   const AppDialog({
     super.key,
@@ -26,7 +66,7 @@ class AppDialog extends StatelessWidget {
     this.isDangerous = false,
   });
 
-  // ── Método estático para mostrarlo fácilmente ──────────────
+  /// Shows the dialog as a modal overlay.
   static Future<void> show(
     BuildContext context, {
     required String title,
@@ -66,12 +106,8 @@ class AppDialog extends StatelessWidget {
     return Dialog(
       child: ConstrainedBox(
         constraints: BoxConstraints(
-          maxWidth:
-              screenWidth *
-              0.90, // máx 90% del ancho — nunca se pega a los bordes
-          maxHeight:
-              screenHeight *
-              0.80, // máx 80% del alto — deja aire arriba y abajo
+          maxWidth: screenWidth * 0.90,
+          maxHeight: screenHeight * 0.80,
         ),
         child: Padding(
           padding: EdgeInsets.all(tokens.spacing.smallMedium),
@@ -79,14 +115,12 @@ class AppDialog extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // ── Título ──────────────────────────────────────
               AppText.h5(
                 title,
                 color: isDangerous ? colors.error : colors.textPrimary,
                 maxLines: 2,
               ),
 
-              // ── Subtítulo ────────────────────────────────────
               if (subtitle != null) ...[
                 SizedBox(height: tokens.spacing.xSmall),
                 AppText.body(
@@ -96,7 +130,6 @@ class AppDialog extends StatelessWidget {
                 ),
               ],
 
-              // ── Contenido custom ─────────────────────────────
               if (content != null) ...[
                 SizedBox(height: tokens.spacing.small),
                 content!,
@@ -104,7 +137,6 @@ class AppDialog extends StatelessWidget {
 
               SizedBox(height: tokens.spacing.smallMedium),
 
-              // ── Botones ──────────────────────────────────────
               Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
@@ -136,7 +168,6 @@ class AppDialog extends StatelessWidget {
   }
 }
 
-// ── Botón de confirmación con variante danger ─────────────────
 class _ConfirmButton extends StatelessWidget {
   final String label;
   final bool isLoading;
@@ -156,7 +187,6 @@ class _ConfirmButton extends StatelessWidget {
     final tokens = AppTokens.of(context);
 
     if (isDangerous) {
-      // Botón rojo para acciones destructivas
       return ElevatedButton(
         onPressed: isLoading ? null : onPressed,
         style: ElevatedButton.styleFrom(

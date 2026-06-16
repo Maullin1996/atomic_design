@@ -1,5 +1,14 @@
 import 'package:flutter/material.dart';
 
+/// Curated set of [IconData] constants used across the design system.
+///
+/// All values are aliases for [Icons] entries, giving them intent-based names
+/// so call sites read as semantic tokens rather than raw Material icon names.
+///
+/// ```dart
+/// Icon(AppIcons.user)
+/// Icon(AppIcons.error, color: colors.error)
+/// ```
 abstract class AppIcons {
   static const IconData user = Icons.account_circle_outlined;
   static const IconData addPhoto = Icons.add_a_photo;

@@ -10,6 +10,7 @@ class CardListScreen extends StatefulWidget {
 
 class _CardListScreenState extends State<CardListScreen> {
   CardListType type = CardListType.list;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -24,10 +25,7 @@ class _CardListScreenState extends State<CardListScreen> {
                 children: [
                   AppButtons(
                     type: ButtonType.primaryTextButton,
-                    onPressed: () {
-                      type = CardListType.list;
-                      setState(() {});
-                    },
+                    onPressed: () => setState(() => type = CardListType.list),
                     title: Text(
                       'Lista',
                       style: Theme.of(context).textTheme.headlineSmall
@@ -36,10 +34,7 @@ class _CardListScreenState extends State<CardListScreen> {
                   ),
                   AppButtons(
                     type: ButtonType.primaryTextButton,
-                    onPressed: () {
-                      setState(() {});
-                      type = CardListType.error;
-                    },
+                    onPressed: () => setState(() => type = CardListType.error),
                     title: Text(
                       'Error',
                       style: Theme.of(context).textTheme.headlineSmall
@@ -48,10 +43,7 @@ class _CardListScreenState extends State<CardListScreen> {
                   ),
                   AppButtons(
                     type: ButtonType.primaryTextButton,
-                    onPressed: () {
-                      type = CardListType.empty;
-                      setState(() {});
-                    },
+                    onPressed: () => setState(() => type = CardListType.empty),
                     title: Text(
                       'Vacía',
                       style: Theme.of(context).textTheme.headlineSmall
@@ -60,10 +52,8 @@ class _CardListScreenState extends State<CardListScreen> {
                   ),
                   AppButtons(
                     type: ButtonType.primaryTextButton,
-                    onPressed: () {
-                      type = CardListType.loading;
-                      setState(() {});
-                    },
+                    onPressed: () =>
+                        setState(() => type = CardListType.loading),
                     title: Text(
                       'Cargando',
                       style: Theme.of(context).textTheme.headlineSmall
@@ -75,7 +65,9 @@ class _CardListScreenState extends State<CardListScreen> {
             ),
             Expanded(
               child: AppCardList(
-                elementsList: _ElementsList(),
+                type: type,
+                itemCount: 20,
+                itemBuilder: (_, __) => const _ContentCard(),
                 emptyWidget: AppStateWidget(
                   title: 'Todavía no tiene Elementos',
                   type: AppStateType.empty,
@@ -90,31 +82,11 @@ class _CardListScreenState extends State<CardListScreen> {
                   title: 'Error Al Cargar Los Elementos',
                   buttonChild: Text('Recargar'),
                 ),
-                type: type,
               ),
             ),
           ],
         ),
       ),
-    );
-  }
-}
-
-class _ElementsList extends StatelessWidget {
-  const _ElementsList();
-
-  @override
-  Widget build(BuildContext context) {
-    final tokens = AppTokens.of(context);
-    return ListView.separated(
-      padding: EdgeInsets.all(tokens.spacing.small),
-      itemCount: 20,
-      separatorBuilder: (BuildContext context, int index) {
-        return SizedBox(height: tokens.spacing.xSmall);
-      },
-      itemBuilder: (BuildContext context, int index) {
-        return _ContentCard();
-      },
     );
   }
 }
@@ -125,12 +97,12 @@ class _ContentCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final tokens = AppTokens.of(context);
+
     return ConstrainedBox(
       constraints: const BoxConstraints(maxHeight: 250),
       child: AppCard(
         child: Row(
-          crossAxisAlignment:
-              CrossAxisAlignment.stretch, // imagen ocupa todo el alto
+          crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             ClipRRect(
               borderRadius: BorderRadius.only(

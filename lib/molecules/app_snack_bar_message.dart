@@ -1,10 +1,21 @@
 import 'package:atomic_design/atoms/tokens.dart';
 import 'package:flutter/material.dart';
 
+/// The inline content widget used inside a [SnackBar] produced by [AppSnackBar].
+///
+/// Renders a semantic icon, the [message] text, and an optional action button
+/// side-by-side. The icon and action color are chosen from [AppColors] based
+/// on [type].
+///
+/// This widget is not typically used directly — use [AppSnackBar.show] instead.
 class AppSnackBarContent extends StatelessWidget {
   final SnackBarType type;
   final String message;
+
+  /// Label for an optional inline action button.
   final String? actionLabel;
+
+  /// Called when the action button is tapped.
   final VoidCallback? onAction;
 
   const AppSnackBarContent({
@@ -51,7 +62,30 @@ class AppSnackBarContent extends StatelessWidget {
   }
 }
 
+/// Shows a floating, themed [SnackBar] with semantic color and icon.
+///
+/// ```dart
+/// AppSnackBar.show(
+///   context,
+///   type: SnackBarType.success,
+///   message: 'Changes saved',
+/// );
+///
+/// AppSnackBar.show(
+///   context,
+///   type: SnackBarType.error,
+///   message: 'Upload failed',
+///   actionLabel: 'Retry',
+///   onAction: _retry,
+/// );
+/// ```
+///
+/// The background is the semantic color for [type] at 86 % opacity, allowing
+/// the content behind the snack bar to show through slightly.
 class AppSnackBar {
+  /// Displays a floating snack bar on the nearest [ScaffoldMessenger].
+  ///
+  /// [duration] defaults to 3 seconds. Any previous snack bars are replaced.
   static void show(
     BuildContext context, {
     required SnackBarType type,
@@ -83,12 +117,14 @@ class AppSnackBar {
   }
 }
 
+/// Semantic severity levels for [AppSnackBar] and [AppSnackBarContent].
 enum SnackBarType {
   success,
   info,
   warning,
   error;
 
+  /// Returns the background [Color] for this type from [AppColors].
   Color background(BuildContext context) {
     final colors = AppColors.of(context);
 
@@ -100,6 +136,7 @@ enum SnackBarType {
     };
   }
 
+  /// Returns the leading [IconData] shown in [AppSnackBarContent].
   IconData icon() {
     return switch (this) {
       success => AppIcons.check,

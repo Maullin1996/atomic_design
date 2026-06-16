@@ -67,6 +67,10 @@ class _GridViewScreenState extends State<GridViewScreen> {
             ),
             Expanded(
               child: AppGridView(
+                type: type,
+                itemCount: 20,
+                childAspectRatio: 0.75,
+                itemBuilder: (_, __) => const _GridCard(),
                 emptyWidget: AppStateWidget(
                   type: AppStateType.empty,
                   title: 'Todavía no hay elementos',
@@ -81,8 +85,6 @@ class _GridViewScreenState extends State<GridViewScreen> {
                   onPressed: () {},
                   image: 'assets/images/error.png',
                 ),
-                elementsList: _ElementsGrid(),
-                type: type,
               ),
             ),
           ],
@@ -92,43 +94,14 @@ class _GridViewScreenState extends State<GridViewScreen> {
   }
 }
 
-class _ElementsGrid extends StatelessWidget {
-  const _ElementsGrid();
-
-  @override
-  Widget build(BuildContext context) {
-    final tokens = AppTokens.of(context);
-    final width = MediaQuery.sizeOf(context).width;
-    final crossAxisCount = _columnCount(width);
-    return GridView.builder(
-      padding: EdgeInsets.all(tokens.spacing.small),
-      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: crossAxisCount,
-        mainAxisSpacing: tokens.spacing.xSmall,
-        crossAxisSpacing: tokens.spacing.xSmall,
-        childAspectRatio: 0.75,
-      ),
-      itemCount: 20,
-      itemBuilder: (BuildContext context, int index) => _ConentGridCard(),
-    );
-  }
-
-  int _columnCount(double width) {
-    if (width < 360) return 1;
-    if (width < 414) return 2;
-    if (width < 600) return 2;
-    if (width < 840) return 3;
-    return 4;
-  }
-}
-
-class _ConentGridCard extends StatelessWidget {
-  const _ConentGridCard();
+class _GridCard extends StatelessWidget {
+  const _GridCard();
 
   @override
   Widget build(BuildContext context) {
     final tokens = AppTokens.of(context);
     final colors = AppColors.of(context);
+
     return AppCard(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,

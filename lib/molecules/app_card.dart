@@ -1,13 +1,41 @@
+import 'package:atomic_design/atoms/app_animations.dart';
 import 'package:atomic_design/atoms/tokens.dart';
 import 'package:flutter/material.dart';
 import 'package:shimmer/shimmer.dart';
 
+/// A themed card container with an optional shimmer skeleton loading state.
+///
+/// Wraps Material's [Card] widget and adds an [AnimatedSwitcher] that
+/// transitions between the skeleton and the real [child] using a combined
+/// fade + slide animation.
+///
+/// ```dart
+/// AppCard(
+///   padding: EdgeInsets.all(16),
+///   isLoading: _isLoading,
+///   child: MyContent(),
+/// )
+/// ```
+///
+/// When [isLoading] is `true`, a shimmer skeleton of height [loadingHeight]
+/// (default 120 px) is shown instead of [child]. The transition duration is
+/// controlled by [switchDuration].
 class AppCard extends StatelessWidget {
+  /// Override for the card background color. Defaults to the theme card color.
   final Color? color;
+
   final Widget child;
+
+  /// Padding applied inside the card, around [child] and the loading skeleton.
   final EdgeInsetsGeometry padding;
+
+  /// When `true`, shows a shimmer skeleton instead of [child].
   final bool isLoading;
+
+  /// Height of the shimmer skeleton in logical pixels. Defaults to `120`.
   final double? loadingHeight;
+
+  /// Duration of the fade + slide transition between states.
   final Duration switchDuration;
 
   const AppCard({
@@ -17,7 +45,7 @@ class AppCard extends StatelessWidget {
     this.padding = EdgeInsets.zero,
     this.isLoading = false,
     this.loadingHeight,
-    this.switchDuration = const Duration(milliseconds: 300),
+    this.switchDuration = AppAnimations.standard,
   });
 
   @override
@@ -81,7 +109,7 @@ class AppCard extends StatelessWidget {
       width: width,
       height: height,
       decoration: BoxDecoration(
-        color: Colors.white, // Shimmer.fromColors necesita un color sólido aquí
+        color: Colors.white, // Shimmer.fromColors needs a solid color here
         borderRadius: BorderRadius.circular(radius),
       ),
     );

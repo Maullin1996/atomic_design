@@ -2,6 +2,26 @@ import 'package:atomic_design/config/app_config.dart';
 import 'package:atomic_design/config/atomic_design_config.dart';
 import 'package:flutter/material.dart';
 
+/// The resolved, typed design-token set for the current context.
+///
+/// Tokens are resolved once per brightness change or screen resize via
+/// [AppTokens.resolve], then propagated down the widget tree by
+/// [AppThemeProvider] using an [InheritedWidget].
+///
+/// **Reading tokens in a widget:**
+///
+/// ```dart
+/// final tokens = AppTokens.of(context);
+/// SizedBox(height: tokens.spacing.medium)
+/// ```
+///
+/// Prefer the static helpers ([AppSpacing], [AppRadius], [AppTypography]) for
+/// single-value lookups to keep call sites concise.
+///
+/// See also:
+/// - [AppThemeProvider], which must wrap the widget tree for [AppTokens.of]
+///   to work.
+/// - [AppColors], for the color palette.
 class AppTokens {
   final AppSpacingTokens spacing;
   final AppRadiusTokens radius;
@@ -13,6 +33,8 @@ class AppTokens {
     required this.typography,
   });
 
+  /// Builds [AppTokens] from the current [BuildContext] by reading the active
+  /// brightness and screen width, then delegating to [AtomicDesignConfig].
   factory AppTokens.resolve(BuildContext context) {
     final brightness = Theme.of(context).brightness;
     final width = MediaQuery.sizeOf(context).width;
@@ -26,6 +48,11 @@ class AppTokens {
     );
   }
 
+  /// Returns the [AppTokens] provided by the nearest [AppThemeProvider]
+  /// ancestor.
+  ///
+  /// Throws an [AssertionError] in debug mode if [AppThemeProvider] is not
+  /// present in the widget tree.
   static AppTokens of(BuildContext context) {
     final provider = context
         .dependOnInheritedWidgetOfExactType<_AppTokensInherited>();
@@ -34,6 +61,9 @@ class AppTokens {
   }
 }
 
+/// Typed spacing scale resolved from the active breakpoint.
+///
+/// All values are in logical pixels.
 class AppSpacingTokens {
   final double xSmall;
   final double small;
@@ -66,6 +96,9 @@ class AppSpacingTokens {
   }
 }
 
+/// Typed border-radius scale resolved from the active breakpoint.
+///
+/// All values are in logical pixels.
 class AppRadiusTokens {
   final double small;
   final double medium;
@@ -89,6 +122,10 @@ class AppRadiusTokens {
   }
 }
 
+/// Typed typography scale resolved from the active breakpoint.
+///
+/// Font sizes are in logical pixels. [fontFamily] is the primary font family
+/// name as declared in the config (e.g. `"Inter"`).
 class AppTypographyTokens {
   final String fontFamily;
   final double caption;
@@ -142,6 +179,28 @@ class _AppTokensInherited extends InheritedWidget {
       tokens != old.tokens;
 }
 
+/// Propagates resolved [AppTokens] down the widget tree and re-resolves them
+/// on brightness changes and screen resizes.
+///
+/// Place this widget immediately inside [MaterialApp]:
+///
+/// ```dart
+/// MaterialApp(
+///   theme: AppThemes.light,
+///   darkTheme: AppThemes.dark,
+///   home: AppThemeProvider(child: MyHomePage()),
+/// )
+/// ```
+///
+/// Descendants read the tokens with [AppTokens.of]:
+///
+/// ```dart
+/// final tokens = AppTokens.of(context);
+/// ```
+///
+/// See also:
+/// - [AppThemes], which builds the [ThemeData] objects consumed by
+///   [MaterialApp].
 class AppThemeProvider extends StatefulWidget {
   final Widget child;
 

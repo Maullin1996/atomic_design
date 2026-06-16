@@ -1,18 +1,53 @@
 import 'package:atomic_design/design_system.dart';
 import 'package:flutter/material.dart';
 
+/// A themed text input field built on [TextFormField].
+///
+/// Renders borders, fill colors, label styles, and focus/error states using
+/// the active design-token values from [AppColors] and [AppTokens], so it
+/// automatically adapts to light and dark themes.
+///
+/// Intended to be placed inside a [Form] when validation is needed:
+///
+/// ```dart
+/// AppInputText(
+///   label: 'Email',
+///   textEditingController: _emailController,
+///   keyboardType: TextInputType.emailAddress,
+///   validator: (v) => v!.contains('@') ? null : 'Invalid email',
+///   suffixIcon: Icon(AppIcons.information),
+/// )
+/// ```
+///
+/// For password fields, set [obscureText] to `true` and provide a visibility
+/// toggle via [suffixIcon].
 class AppInputText extends StatelessWidget {
+  /// Optional floating label shown above the field when focused.
   final String? label;
+
+  /// Placeholder shown when the field is empty and not focused.
   final String? hint;
+
   final TextEditingController? textEditingController;
+
+  /// When `true`, input characters are replaced with bullet characters.
   final bool obscureText;
+
   final void Function(String)? onChange;
+
+  /// Returns an error string to display below the field, or `null` if valid.
   final String? Function(String?)? validator;
+
   final Widget? suffixIcon;
   final Widget? prefixIcon;
   final FloatingLabelBehavior? floatingLabelBehavior;
+
+  /// Overrides the default input text style derived from [AppTokens].
   final TextStyle? inputTextStyle;
+
   final TextInputType? keyboardType;
+
+  /// Defaults to `1`. Set to `null` to allow unlimited lines.
   final int? maxLines;
 
   const AppInputText({

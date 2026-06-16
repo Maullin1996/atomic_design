@@ -2,10 +2,15 @@
 import 'package:atomic_design/design_system.dart';
 import 'package:flutter/material.dart';
 
+/// Data model for a single item in [AppDrawer].
 class DrawerItem {
   final IconData icon;
   final String label;
+
+  /// Called after the drawer closes when this item is tapped.
   final VoidCallback onTap;
+
+  /// When `true`, the item is highlighted with the primary color.
   final bool isSelected;
 
   const DrawerItem({
@@ -16,12 +21,39 @@ class DrawerItem {
   });
 }
 
-// Organismo
+/// A navigation drawer with an optional user header and a logout button.
+///
+/// The header section (avatar, name, email) is rendered only when at least
+/// one of [userName], [userEmail], or [avatarUrl] is provided.  The avatar
+/// displays initials derived from [userName] when [avatarUrl] is `null` or
+/// fails to load.
+///
+/// ```dart
+/// AppDrawer(
+///   userName: 'Jane Doe',
+///   userEmail: 'jane@example.com',
+///   avatarUrl: user.photoUrl,
+///   onLogout: _signOut,
+///   items: [
+///     DrawerItem(icon: AppIcons.user,  label: 'Profile',  onTap: _goProfile),
+///     DrawerItem(icon: AppIcons.save,  label: 'Settings', onTap: _goSettings,
+///                isSelected: true),
+///   ],
+/// )
+/// ```
+///
+/// The logout button is rendered at the bottom of the drawer, separated by a
+/// [Divider], only when [onLogout] is non-null. Tapping any item closes the
+/// drawer before invoking [DrawerItem.onTap].
 class AppDrawer extends StatelessWidget {
   final List<DrawerItem> items;
   final String? userName;
   final String? userEmail;
+
+  /// URL of the user's avatar image. Falls back to initials or a person icon.
   final String? avatarUrl;
+
+  /// When non-null, a destructive logout button is shown at the bottom.
   final VoidCallback? onLogout;
 
   const AppDrawer({
