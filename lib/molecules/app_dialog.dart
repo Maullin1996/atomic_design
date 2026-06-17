@@ -138,6 +138,7 @@ class AppDialog extends StatelessWidget {
               SizedBox(height: tokens.spacing.smallMedium),
 
               Row(
+                mainAxisSize: MainAxisSize.min,
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
                   if (cancelLabel != null)
