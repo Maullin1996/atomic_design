@@ -28,12 +28,15 @@ class AppSearchBar extends StatelessWidget {
   /// Placeholder text shown inside the field. Defaults to `'Buscar…'`.
   final String hintText;
 
+  final Color? fillColor;
+
   const AppSearchBar({
     super.key,
     this.controller,
     this.onChanged,
     this.enabled = true,
     this.hintText = 'Buscar…',
+    this.fillColor,
   });
 
   @override
@@ -47,6 +50,7 @@ class AppSearchBar extends StatelessWidget {
         Icons.search_rounded,
         color: AppColors.of(context).textSecondary,
       ),
+      fillColor: fillColor,
     );
   }
 }

@@ -50,6 +50,8 @@ class AppInputText extends StatelessWidget {
   /// Defaults to `1`. Set to `null` to allow unlimited lines.
   final int? maxLines;
 
+  final Color? fillColor;
+
   const AppInputText({
     super.key,
     this.label,
@@ -64,6 +66,7 @@ class AppInputText extends StatelessWidget {
     this.inputTextStyle,
     this.keyboardType,
     this.maxLines = 1,
+    this.fillColor,
   });
 
   @override
@@ -93,7 +96,7 @@ class AppInputText extends StatelessWidget {
         prefixIcon: prefixIcon,
         suffixIcon: suffixIcon,
         filled: true,
-        fillColor: colors.surfaceMid,
+        fillColor: fillColor ?? colors.surfaceMid,
         labelText: label,
         hintText: hint,
         hintStyle: TextStyle(

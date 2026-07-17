@@ -1,4 +1,5 @@
 import 'package:atomic_design/design_system.dart';
+import 'package:atomic_design_example/config/theme/theme_controller.dart';
 import 'package:flutter/material.dart';
 
 class SwitchScreen extends StatefulWidget {
@@ -9,7 +10,6 @@ class SwitchScreen extends StatefulWidget {
 }
 
 class _SwitchScreenState extends State<SwitchScreen> {
-  bool _withLabel = false;
   bool _withoutLabel = true;
 
   @override
@@ -24,10 +24,20 @@ class _SwitchScreenState extends State<SwitchScreen> {
             children: [
               _PreviewRow(
                 label: 'With label',
-                child: AppSwitch(
-                  value: _withLabel,
-                  label: const Text('Dark mode'),
-                  onChanged: (v) => setState(() => _withLabel = v),
+                child: ValueListenableBuilder<ThemeMode>(
+                  valueListenable: ThemeController.mode,
+                  builder: (context, mode, _) {
+                    final isDark =
+                        mode == ThemeMode.dark ||
+                        (mode == ThemeMode.system &&
+                            MediaQuery.platformBrightnessOf(context) ==
+                                Brightness.dark);
+                    return AppSwitch(
+                      value: isDark,
+                      label: const Text('Dark mode'),
+                      onChanged: ThemeController.setDark,
+                    );
+                  },
                 ),
               ),
               _PreviewRow(
